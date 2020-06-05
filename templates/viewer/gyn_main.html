@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends 'viewer/base.html' %}
+  {% block body_block %}
+    <h1 style='font:'>Gynecologic Pathology</h1>
+  {% endblock %}
+
+  {% block body_block_two %}
+    <div id='categories' class="container">
+      <h1>
+        <a href="{% url 'viewer:cases_page' %}">Frozen Section Tutorials</a>
+      </h1>
+    </div><br>
+
+    <div id='categories' class="container">
+      <h1>Gross Pathology Tutorials</h1>
+    </div><br>
+
+    <div id='categories' class="container">
+      <h1>Morphology Pattern-Based Tutorials</h1>
+    </div><br>
+
+    <div id='categories' class="container">
+      <h1>Immunostain Interpretation Tutorials</h1>
+    </div><br>
+
+    <div id='categories' class="container">
+      <h1>Diagnosis Reference Archive</h1>
+    </div><br>
+
+    <div id='categories' class="container">
+      <h1>
+        <a href="{% url 'viewer:cases_page' %}">Amazing Cases of the Week</a>
+      </h1>
+    </div><br>
+    {% endblock %}

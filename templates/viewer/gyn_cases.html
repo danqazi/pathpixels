@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends 'viewer/gyn_main.html' %}
+
+  {% block body_block_two %}
+  {% if case_list %}
+  {% for case in case_list %}
+  <div class="container-fluid">
+    <table style="width: 100%">
+      <thead>
+        <tr>
+          <th colspan="2" style="font-size:1.15em;"><strong>{{ case.diagnosis }}</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="width:50%"><strong>History:</strong><p></p>
+            <p>{{ case.history }}</p>
+          </td>
+          <td style="width:50%"><a href="{% url 'viewer:wsi' case.id %}" target="_blank">View Digital Slide</a><p></p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endblock %}
