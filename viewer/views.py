@@ -1,5 +1,11 @@
+#Python
+
+#Django
+
+#Own
+
 from django.shortcuts import render
-from viewer.models import User, Case
+from viewer.models import User, Case, Profile
 from viewer.forms import UserForm, UserProfileInfoForm, AnswerForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -82,23 +88,24 @@ class CasesView(LoginRequiredMixin, ListView):
 def wsi(request, case_id):
     case = Case.objects.get(pk=case_id)
 
+    if request.method == 'GET':
+        answer_form = AnswerForm()
+        case_name_low = case.name.lower()
+        case_name = case_name_low.replace(' ', '_')
+        case_name_dzi = case_name + '/' + case_name + '.dzi'
+        return render(request, 'viewer/wsi.html',
+                      context={'dx': case_name, 'dx_dzi': case_name_dzi, 'case': case, 'answer_form': answer_form})
+
     if request.method == 'POST':
         answer_form = AnswerForm(data=request.POST)
 
         if answer_form.is_valid():
-            answer = user_form.save()
-            answer.save()
+            answer = answer_form.cleaned_data['text']
 
         else:
             print(answer_form.errors)
-    else:
-        answer_form = AnswerForm()
 
-    case_name_low = case.diagnosis.lower()
-    case_name = case_name_low.replace(' ', '_')
-    case_name_dzi = case_name + '/' + case_name + '.dzi'
 
-    return render(request, 'viewer/wsi.html', context={'dx':case_name, 'dx_dzi':case_name_dzi, 'case':case, 'answer_form':answer_form})
 
 @login_required
 def profile(request):
@@ -121,25 +128,20 @@ def registration(request):
 
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
-        profile_form = UserProfileInfoForm(data=request.POST)
 
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
             user.save()
-
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
+            Profile.objects.create(user=user)
 
             registered = True
 
         else:
-            print(user_form.errors,profile_form.errors)
+            print(user_form.errors)
     else:
         user_form = UserForm()
-        profile_form = UserProfileInfoForm()
 
     return render(request, 'viewer/registration.html',
-                  context={'user_form':user_form, 'profile_form': profile_form,
+                  context={'user_form':user_form,
                   'registered': registered})

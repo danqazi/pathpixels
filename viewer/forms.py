@@ -1,5 +1,5 @@
 from django import forms
-from viewer.models import UserProfileInfo, UserAnswer, Question
+from viewer.models import Profile, Question
 from django.contrib.auth.models import User
 
 class UserForm(forms.ModelForm):
@@ -10,7 +10,7 @@ class UserForm(forms.ModelForm):
 
 class UserProfileInfoForm(forms.ModelForm):
     class Meta():
-        model = UserProfileInfo
+        model = Profile
         exclude = ('user',)
 
 # class RegistrationForm(forms.ModelForm):
@@ -18,23 +18,16 @@ class UserProfileInfoForm(forms.ModelForm):
 #         model = MyUser
 #         fields = '__all__'
 
-class QuestionForm(forms.ModelForm):
+# class QuestionForm(forms.ModelForm):
+#
+#     class Meta():
+#         model = Question
+#         fields = ('question',)
+#
+#         widgets = {
+#             'title':forms.TextInput(attrs={'class':'textinputclass'}),
+#             'text':forms.Textarea(attrs={'class':'editable medium-editor-textarea postcontent'})
+#         }
 
-    class Meta():
-        model = Question
-        fields = ('question',)
-
-        widgets = {
-            'title':forms.TextInput(attrs={'class':'textinputclass'}),
-            'text':forms.Textarea(attrs={'class':'editable medium-editor-textarea postcontent'})
-        }
-
-class AnswerForm(forms.ModelForm):
-    class Meta():
-        model = UserAnswer
-        fields = ('answer',)
-
-        widgets = {
-            'author':forms.TextInput(attrs={'class':'textinputclass'}),
-            'text':forms.Textarea(attrs={'class':'editable medium-editor-textarea'})
-        }
+class AnswerForm(forms.Form):
+    text = forms.CharField(max_length=250, required=True, label='Answer')

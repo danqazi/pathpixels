@@ -4,25 +4,27 @@
 /* .text-cyan { color: #35bdff; } */
 
 #firstHalf{
+  height: 100%;
   border: 5px solid black;
+  display: grid;
+  grid-template-rows: 25% 1fr;
 }
 
-#upper{
-  border-bottom: 5px solid black;
-  height: 20%;
+#firstHalf .section {
   overflow: scroll;
   text-align: center;
-  align:  center;
-  overflow-x: hidden;
-}
-
-#lower{
-  height: 65%;
-  overflow: scroll;
-  text-align: center;
+  padding: 10px;
   align:  center;
   overflow-x: hidden;
   border-bottom: 5px solid black;
+}
+
+#upper {
+    grid-row: 1 / 2;
+}
+
+#submit {
+    grid-row: 2 / 3;
 }
 
 #submit{

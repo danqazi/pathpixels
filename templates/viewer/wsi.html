@@ -22,27 +22,22 @@
 
       <div id="firstHalf" class="col-md-3 p-0 bg-indigo h-md-100">
           <!-- <div class="text-white align-items-center text-center justify-content-center"> -->
-          <div id="upper" class="container-fluid text-black">
+          <div id="upper" class="container-fluid text-black section">
             <div class="row">
               <h1>Clinical History</h1>
             </div>
             <div id="hx" class="row">
               <p>{{ case.history }}</p>
-            </div>
-          </div>
-
-          <div id="lower" class="container-fluid text-black">
-            <div class="row">
+            </div>            <div class="row">
               <h1>Hints</h1>
             </div>
             <div id="hints" class="row">
-              <ul>
-                <li><h3 id='hintOne'>Insert</h3></li>
-              </ul>
+              <p>Insert</p>
             </div>
+
           </div>
 
-          <div id="submit" class="container-fluid text-black">
+          <div id="submit" class="container-fluid text-black section">
             <div id="answer" class="row">
               <form enctype="multipart/form-data" method="POST">
                 <div class="form-group">
@@ -66,7 +61,7 @@
                   var viewer = OpenSeadragon({
                     id: "center",
                     prefixUrl: "{% static "js/openseadragon/images/" %}",
-                    tileSources: {% with 'images/'|add:dx_dzi as image_static %} "{% static image_static %}" {% endwith %},
+                    tileSources: "{{ case.get_image_url }}",
                     showNavigator: true,
                     zoomPerScroll:  2,
                     zoomPerClick: 1.0
