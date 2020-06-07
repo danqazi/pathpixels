@@ -5,7 +5,7 @@
 #Own
 
 from django.shortcuts import render
-from viewer.models import User, Case, Profile
+from viewer.models import User, Case, Profile, OrganSystem, Tutorial, Diagnosis
 from viewer.forms import UserForm, UserProfileInfoForm, AnswerForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -46,6 +46,7 @@ def user_login(request):
             print("Username: {} and password {}".format(username,password))
             return HttpResponse("Invalid login details supplied")
     else:
+        print('herllo')
         return render(request, 'viewer/base.html', {})
 
 
@@ -55,55 +56,92 @@ def user_logout(request):
     return render(request, 'viewer/base.html', {})
 
 # @login_required
-class MainPageView(LoginRequiredMixin, TemplateView):
-    template_name = 'viewer/gyn_main.html'
-    # login_url = '/'
-    # redirect_field_name = 'viewer/base.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['inject_me'] = 'BASIC INJECTION'
-        return context
+def MainPageView(request):
+    organsystem_name = request.GET.get("organsystem")
+    organsystem = OrganSystem.objects.get(name=organsystem_name)
+    tutorials = organsystem.tutorials.all()
+    return render(request, 'viewer/main.html', context={'organsystem': organsystem, 'tutorials':tutorials})
 
+
+
+# class MainPageView(LoginRequiredMixin, TemplateView):
+#     template_name = 'viewer/main.html'
+#     model = OrganSystem
+#     # login_url = '/'
+#     # redirect_field_name = 'viewer/base.html'
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['inject_me'] = 'BASIC INJECTION'
+#         return context
+#     # dispatch is called when the class instance loads
+#     def dispatch(self, request, *args, **kwargs):
+#         self.year = kwargs.get('year', "any_default")
+#     # other code
+#     # needed to have an HttpResponse
+#     return super(MainPageView, self).dispatch(request, *args, **kwargs)
 # def main_page(request):
-#     return render(request, 'viewer/gyn_main.html')
+#     return render(request, 'viewer/main.html')
 
 # @login_required
-class CasesView(LoginRequiredMixin, ListView):
-    model = Case
-    template_name = 'viewer/gyn_cases.html'
-    context_object_name = 'case_list'
 
-    def get_queryset(self):
-        return Case.objects.all()
+def CasesView(request, organsystem_name):
+    organsystem = OrganSystem.objects.get(name=organsystem_name)
+    case_list = Case.objects.all()
+    print('goodbye')
+    return render(request, 'viewer/cases.html', context={'organsystem': organsystem, 'case_list':case_list})
+
+
+# class CasesView(LoginRequiredMixin, ListView):
+#     model = Case
+#     template_name = 'viewer/cases.html'
+#     context_object_name = 'case_list'
+#
+#     def get_queryset(self):
+#         return Case.objects.all()
 
 # def cases_page(request):
 #     case_list = Case.objects.all()
-#     return render(request, 'viewer/gyn_cases.html', context={'case_list':case_list})
+#     return render(request, 'viewer/cases.html', context={'case_list':case_list})
 
 # @login_required
 # class WSIView(LoginRequiredMixin, DetailView):
 #     model = Case
 #     template_name = 'viewer/wsi.html'
 
-def wsi(request, case_id):
+def wsi(request, organsystem_name, case_id):
     case = Case.objects.get(pk=case_id)
+    case_name_low = case.name.lower()
+    case_name = case_name_low.replace(' ', '_')
+    case_name_dzi = case_name + '/' + case_name + '.dzi'
 
     if request.method == 'GET':
         answer_form = AnswerForm()
-        case_name_low = case.name.lower()
-        case_name = case_name_low.replace(' ', '_')
-        case_name_dzi = case_name + '/' + case_name + '.dzi'
-        return render(request, 'viewer/wsi.html',
-                      context={'dx': case_name, 'dx_dzi': case_name_dzi, 'case': case, 'answer_form': answer_form})
+        answered = False
 
     if request.method == 'POST':
         answer_form = AnswerForm(data=request.POST)
+        answered = True
 
         if answer_form.is_valid():
             answer = answer_form.cleaned_data['text']
-
+            answer_form = AnswerForm(initial={'text':answer})
         else:
             print(answer_form.errors)
+
+        if answer == case.diagnosis.text:
+            pass
+        else:
+            pass
+
+    diagnoses = []
+    for diagnosis in Diagnosis.objects.all():
+        diagnoses.append(diagnosis.text)
+
+    return render(request, 'viewer/wsi.html', context={'dx': case_name, 'dx_dzi': case_name_dzi, 'case': case,
+                                                       'answer_form': answer_form, 'answered': answered,
+                                                       'teach_points': case.teach_points, 'diagnoses':diagnoses})
+
+
 
 
 

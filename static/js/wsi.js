@@ -10,5 +10,7 @@ function change_out(){
 
 hintOne.click(change_over)
 
+
+
 // hintOne.addEventListener('mouseover', change_over)
 // hintOne.addEventListener('mouseout', change_out)

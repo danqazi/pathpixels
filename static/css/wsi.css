@@ -41,3 +41,9 @@ h1{
 .row{
   text-align: center;
 }
+
+.ui-widget.ui-widget-content{
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

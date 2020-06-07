@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% extends 'viewer/base.html' %}
+  {% block body_block %}
+    <h1 style='font:'> {{ organsystem.name }} Pathology </h1>
+  {% endblock %}
+
+  {% block body_block_two %}
+  {% for tutorial in tutorials %}
+    <div class="container categories">
+      <h1>
+        <a href="/viewer/main/cases/{{ organsystem.name }}/">{{ tutorial.name }}</a>
+      </h1>
+    </div><br>
+  {% endfor %}
+  {% endblock %}

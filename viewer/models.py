@@ -16,6 +16,16 @@ class Profile(models.Model):
 # class Performance(models.Model):
 #     score = models.CharField(max_length=100)
 
+
+class OrganSystem(models.Model):
+    name = models.CharField(max_length=75, default='')
+    tutorials = models.ManyToManyField('viewer.Tutorial')
+
+
+class Tutorial(models.Model):
+    name = models.CharField(max_length=75, default='')
+
+
 class Case(models.Model):
     name = models.CharField(max_length=250, default='')
     diagnosis = models.ForeignKey('viewer.Diagnosis', on_delete=models.SET_NULL, null=True)
@@ -26,7 +36,13 @@ class Case(models.Model):
         case_name_low = self.name.lower()
         case_name = case_name_low.replace(' ', '_')
         case_name_dzi = case_name + '/' + case_name + '.dzi'
-        return settings.STATIC_URL + 'images/' + case_name_dzi
+        return settings.STATIC_URL_2 + 'images/' + case_name_dzi
+
+    def get_image_thumb(self):
+        case_name_low = self.name.lower()
+        case_name = case_name_low.replace(' ', '_')
+        return settings.STATIC_URL_2 + 'images/' + case_name + '/thumb.PNG'
+
 
     def __str__(self):
         return str(self.id) + ': ' + self.name

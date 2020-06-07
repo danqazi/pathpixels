@@ -47,6 +47,9 @@
                 </div>
               </form>
             </div>
+            <div>
+                {% if answered %}{{ teach_points }} {% endif %}
+            </div>
           </div>
       </div>
 
@@ -82,6 +85,12 @@
       </div>
 
   </body>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>var list = {{ diagnoses |safe }};
+  $("#id_text").autocomplete({source: list, minLength:3});</script>
   <script src="{% static "js/wsi.js" %}"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
 
 </html>
