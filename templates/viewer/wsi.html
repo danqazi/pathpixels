@@ -36,14 +36,13 @@
                 {% if answered %}
                 {% if answer == case_dx %}
                 <h4 style="color:green">Correct!</h4>
+                <h4>Answer: {{case.diagnosis.text}}</h4>
                 {% else %}
                 <h4 style="color:red">Incorrect.</h4>
-                <h4>The answer is: {{case.diagnosis.text}}</h4>
-                <br>
-                <br>
+                <h4>Answer: {{case.diagnosis.text}}</h4>
+                {% endif %}
                 <h3><u>Explanation</u></h3>
                 {{ teach_points }}
-                {% endif %}
                 {% else %}
                 <form enctype="multipart/form-data" method="POST">
                 <div class="form-group">

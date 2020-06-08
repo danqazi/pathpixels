@@ -21,9 +21,15 @@ class OrganSystem(models.Model):
     name = models.CharField(max_length=75, default='')
     tutorials = models.ManyToManyField('viewer.Tutorial')
 
+    def __str__(self):
+        return self.name
+
 
 class Tutorial(models.Model):
     name = models.CharField(max_length=75, default='')
+
+    def __str__(self):
+        return self.name
 
 
 class Case(models.Model):
@@ -43,9 +49,8 @@ class Case(models.Model):
         case_name = case_name_low.replace(' ', '_')
         return settings.STATIC_URL_2 + 'images/' + case_name + '/thumb.PNG'
 
-
     def __str__(self):
-        return str(self.id) + ': ' + self.name
+        return str(self.id) + ': '+self.name
 
 
 class Diagnosis(models.Model):

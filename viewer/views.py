@@ -113,7 +113,7 @@ def wsi(request, organsystem_name, case_id):
     case_name_low = case.name.lower()
     case_name = case_name_low.replace(' ', '_')
     case_name_dzi = case_name + '/' + case_name + '.dzi'
-    case_dx = str(case.diagnosis.text)
+    case_dx = case.diagnosis.text
 
     diagnoses = []
     for diagnosis in Diagnosis.objects.all():
@@ -122,13 +122,14 @@ def wsi(request, organsystem_name, case_id):
     if request.method == 'GET':
         answer_form = AnswerForm()
         answered = False
+        answer = ''
 
     if request.method == 'POST':
         answer_form = AnswerForm(data=request.POST)
         answered = True
 
         if answer_form.is_valid():
-            answer = str(answer_form.cleaned_data['text'])
+            answer = answer_form.cleaned_data['text']
             answer_form = AnswerForm(initial={'text':answer})
         else:
             print(answer_form.errors)
@@ -136,7 +137,7 @@ def wsi(request, organsystem_name, case_id):
     return render(request, 'viewer/wsi.html', context={'dx': case_name, 'dx_dzi': case_name_dzi, 'case': case,
                                                        'answer_form': answer_form, 'answered': answered,
                                                        'teach_points': case.teach_points, 'diagnoses': diagnoses,
-                                                       'case_dx': case_dx})
+                                                       'case_dx': case_dx, 'answer':answer})
 
 
 
