@@ -159,6 +159,6 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 AWS_S3_FILE_OVERWRITE = False
 
-ALLOWED_HOSTS = ['*', '54.184.102.161']
+ALLOWED_HOSTS = ['*', '34.218.238.130']
 
 # USE_S3 = os.getenv('USE_S3') == 'TRUE'

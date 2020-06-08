@@ -30,3 +30,14 @@ th{
   background-color:  green;
   color: blue;
 }
+
+@keyframes rainbow{
+  from {background-color: red;}
+  to {background-color: yellow;}
+}
+
+.jumbotron-fluid{
+  background-color: red;
+  animation-name: example;
+  animation-duration: 4s;
+}

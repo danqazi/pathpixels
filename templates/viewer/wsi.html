@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <link rel="stylesheet" href="{% static "css/wsi.css" %}">
+    <link rel="stylesheet" href="{% static 'css/wsi.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script
       src="https://code.jquery.com/jquery-3.5.1.js"
@@ -23,32 +23,36 @@
       <div id="firstHalf" class="col-md-3 p-0 bg-indigo h-md-100">
           <!-- <div class="text-white align-items-center text-center justify-content-center"> -->
           <div id="upper" class="container-fluid text-black section">
-            <div class="row">
+            <div class="row" style="padding-left:10px;">
               <h1>Clinical History</h1>
             </div>
-            <div id="hx" class="row">
+            <div id="hx" class="row" style="padding-left:10px;">
               <p>{{ case.history }}</p>
-            </div>            <div class="row">
-              <h1>Hints</h1>
             </div>
-            <div id="hints" class="row">
-              <p>Insert</p>
-            </div>
-
           </div>
 
-          <div id="submit" class="container-fluid text-black section">
-            <div id="answer" class="row">
-              <form enctype="multipart/form-data" method="POST">
+          <div id="submit" class="container-fluid text-black section" style="height:75%; text-align: left">
+            <div id="answer" class="row" style="padding:15px; text-align: left">
+                {% if answered %}
+                {% if answer == case_dx %}
+                <h4 style="color:green">Correct!</h4>
+                {% else %}
+                <h4 style="color:red">Incorrect.</h4>
+                <h4>The answer is: {{case.diagnosis.text}}</h4>
+                <br>
+                <br>
+                <h3><u>Explanation</u></h3>
+                {{ teach_points }}
+                {% endif %}
+                {% else %}
+                <form enctype="multipart/form-data" method="POST">
                 <div class="form-group">
                   {{ answer_form }}
                   {% csrf_token %}
                   <input type="submit" name="answ" value="Submit">
                 </div>
-              </form>
-            </div>
-            <div>
-                {% if answered %}{{ teach_points }} {% endif %}
+                </form>
+                {% endif %}
             </div>
           </div>
       </div>
