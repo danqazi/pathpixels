@@ -10,4 +10,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.user_login, name='index'),
     path('viewer/', include('viewer.urls')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
