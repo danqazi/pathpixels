@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <link rel="stylesheet" href="{% static 'css/wsi.css' %}">
+    <link rel="stylesheet" href="{% static 'css/wsi.css' %}" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script
       src="https://code.jquery.com/jquery-3.5.1.js"
@@ -16,53 +16,48 @@
 
     <!-- Container for entire page -->
 
-    <div class="d-md-flex h-md-100 align-items-center">
+    <div class="wsi-container h-md-100 align-items-center" style="background: url({% static 'images/pink-background.png' %}) center / cover;">
 
     <!-- First Half -->
-
-      <div id="firstHalf" class="bg-indigo" style="background: url({% static 'images/pink-background.png' %}) center / cover;">
-          <!-- <div class="text-white align-items-center text-center justify-content-center"> -->
-          <div id="upper" class="text-black section">
-            <div class="section-title">Clinical History</div>
-            <div id="hx" class="section-text">
-              <p>{{ case.history }}</p>
-            </div>
-          </div>
-        
-          <div id="submit" class="section" style="text-align: left">
-            {% if not answered %}<div class="section-title">Answer</div>{% endif %}
-            <div id="answer" class="section-text" style="padding-top: 5px;">
-                {% if answered %}
-                  {% if answer == case_dx %}
-                    <h4 style="color:green">Correct!</h4>
-                    <h4>Answer: {{case.diagnosis.text}}</h4>
-                  {% else %}
-                    <h4 style="color:red">Incorrect.</h4>
-                    <h4>Answer: {{case.diagnosis.text}}</h4>
-                  {% endif %}
-                
-                  <h3><u>Explanation</u></h3>
-                  {{ teach_points }}
-                {% else %}
-                  <form enctype="multipart/form-data" method="POST">
-                    <div class="form-group">
-                      {% csrf_token %}
-                      {{ answer_form.text }}
-                      <input type="submit" name="answ" value="Submit">
-                    </div>
-                  </form>
-                {% endif %}
-            </div>
-          </div>
+      <div id="upper" class="text-black section">
+        <div class="section-title">Clinical History</div>
+        <div id="hx" class="section-text">
+          <p>{{ case.history }}</p>
+        </div>
       </div>
-
+        
+      <div id="submit" class="section" style="text-align: left">
+        {% if not answered %}<div class="section-title">Answer</div>{% endif %}
+        <div id="answer" class="section-text" style="padding-top: 5px;">
+            {% if answered %}
+              {% if answer == case_dx %}
+                <h4 style="color:green">Correct!</h4>
+                <h4>Answer: {{case.diagnosis.text}}</h4>
+              {% else %}
+                <h4 style="color:red">Incorrect.</h4>
+                <h4>Answer: {{case.diagnosis.text}}</h4>
+              {% endif %}
+            
+              <h3><u>Explanation</u></h3>
+              {{ teach_points }}
+            {% else %}
+              <form enctype="multipart/form-data" method="POST">
+                <div class="form-group">
+                  {% csrf_token %}
+                  {{ answer_form.text }}
+                  <input type="submit" name="answ" value="Submit">
+                </div>
+              </form>
+            {% endif %}
+        </div>
+      </div>
       <!-- Second Half -->
 
-      <div id="secondHalf" class="col-md-9 p-0 bg-black h-md-100">
-          <divclass="d-md-flex align-items-center h-md-100 p-5 justify-content-center">
-            <div id="center" style="width: 100%; height: 100%; background: black;">
+      <div id="secondHalf" class="bg-black">
+          <div class="d-md-flex align-items-center justify-content-center osd-container">
+            <div id="center" style="width: 100%; height: 100%;">
                 <script src="{% static 'js/openseadragon/openseadragon.min.js' %}"></script>
-                <script src="{% static "js/openseadragon/openseadragon-scalebar.js" %}"></script>
+                <script src="{% static 'js/openseadragon/openseadragon-scalebar.js' %}"></script>
                 <script type="text/javascript">
                   var viewer = OpenSeadragon({
                     id: "center",
@@ -91,7 +86,7 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>var list = {{ diagnoses |safe }};
   $("#id_text").autocomplete({source: list, minLength:3});</script>
-  <script src="{% static "js/wsi.js" %}"></script>
+  <script src="{% static 'js/wsi.js' %}"></script>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 
