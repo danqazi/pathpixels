@@ -20,37 +20,37 @@
 
     <!-- First Half -->
 
-      <div id="firstHalf" class="col-md-3 p-0 bg-indigo h-md-100">
+      <div id="firstHalf" class="bg-indigo" style="background: url({% static 'images/pink-background.png' %}) center / cover;">
           <!-- <div class="text-white align-items-center text-center justify-content-center"> -->
-          <div id="upper" class="container-fluid text-black section">
-            <div class="row" style="padding-left:10px;">
-              <h1>Clinical History</h1>
-            </div>
-            <div id="hx" class="row" style="padding-left:10px;">
+          <div id="upper" class="text-black section">
+            <div class="section-title">Clinical History</div>
+            <div id="hx" class="section-text">
               <p>{{ case.history }}</p>
             </div>
           </div>
-
-          <div id="submit" class="container-fluid text-black section" style="height:75%; text-align: left">
-            <div id="answer" class="row" style="padding:15px; text-align: left">
+        
+          <div id="submit" class="section" style="text-align: left">
+            {% if not answered %}<div class="section-title">Answer</div>{% endif %}
+            <div id="answer" class="section-text" style="padding-top: 5px;">
                 {% if answered %}
-                {% if answer == case_dx %}
-                <h4 style="color:green">Correct!</h4>
-                <h4>Answer: {{case.diagnosis.text}}</h4>
+                  {% if answer == case_dx %}
+                    <h4 style="color:green">Correct!</h4>
+                    <h4>Answer: {{case.diagnosis.text}}</h4>
+                  {% else %}
+                    <h4 style="color:red">Incorrect.</h4>
+                    <h4>Answer: {{case.diagnosis.text}}</h4>
+                  {% endif %}
+                
+                  <h3><u>Explanation</u></h3>
+                  {{ teach_points }}
                 {% else %}
-                <h4 style="color:red">Incorrect.</h4>
-                <h4>Answer: {{case.diagnosis.text}}</h4>
-                {% endif %}
-                <h3><u>Explanation</u></h3>
-                {{ teach_points }}
-                {% else %}
-                <form enctype="multipart/form-data" method="POST">
-                <div class="form-group">
-                  {{ answer_form }}
-                  {% csrf_token %}
-                  <input type="submit" name="answ" value="Submit">
-                </div>
-                </form>
+                  <form enctype="multipart/form-data" method="POST">
+                    <div class="form-group">
+                      {% csrf_token %}
+                      {{ answer_form.text }}
+                      <input type="submit" name="answ" value="Submit">
+                    </div>
+                  </form>
                 {% endif %}
             </div>
           </div>
