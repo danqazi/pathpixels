@@ -46,7 +46,7 @@
               <a class="dropdown-item" href="#">Thoracic</a>
               <a class="dropdown-item" href="#"></a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="/viewer/upload">Upload/Edit Content</a>
             </div>
           </li>
         </ul>
@@ -80,22 +80,29 @@
     {% block body_block_two %}
     {% if user.is_authenticated == False %}
     <div  class="container-fluid">
-      <form action="" method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-          <input type="text" class="form-control" name='username' placeholder="Username" required>
+      <div class="row">
+        <div class="col-lg-5"">
+          <h2 style="text-align: center; color: pink">------Returning Users------</h2>
+          <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+              <input type="text" class="form-control" name='username' placeholder="Username" required>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" name='password' placeholder="Password" required>
+            </div>
+            <div class="form-group">
+              <input type="submit" class="form-control" value="Login" style="background: pink">
+            </div>
+          </form>
         </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name='password' placeholder="Password" required>
+        <div class="col-lg-5 offset-1">
+          <h2 style="text-align: center; color: purple"> ------New Users------ </h2>
+          <a type="button" class="btn btn-primary btn-lg btn-block" href="{% url 'viewer:register' %}" style="background: purple">Register</a>
         </div>
-        <div class="form-group">
-          <input type="submit" class="form-control" value="Login" style="background: pink">
-        </div>
-      </form>
+      </div>
     </div>
-    <div class="container-fluid">
-      <a type="button" class="btn btn-primary btn-lg btn-block" href="{% url 'viewer:register' %}" style="background: purple">Register</a>
-    </div>
+
     {% endif %}
     {% endblock %}
 

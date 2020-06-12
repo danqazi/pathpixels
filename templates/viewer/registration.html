@@ -10,13 +10,15 @@
     {% if registered %}
       <h1>Thanks for registering!</h1>
     {% else %}
-    <form enctype="multipart/form-data" method="POST">
-      <div class="form-group">
-        {{ user_form.as_p }}
-        {% csrf_token %}
-      </div>
-      <input type="submit" name="" value="Register">
-    </form>
+    <div class="container" style="border: 2px solid black; border-radius: 25px; background: pink">
+      <form enctype="multipart/form-data" method="POST">
+        <div class="form-group">
+          {% csrf_token %}
+          {{ user_form.as_p }}
+          <input type="submit" name="" value="Register">
+        </div>
+      </form>
+    </div>
     {% endif %}
   </div>
   {% endblock %}

@@ -6,7 +6,7 @@
 
 from django.shortcuts import render
 from viewer.models import User, Case, Profile, OrganSystem, Tutorial, Diagnosis
-from viewer.forms import UserForm, UserProfileInfoForm, AnswerForm
+from viewer.forms import UserForm, UserProfileInfoForm, AnswerForm, UploadFileForm, EditCaseForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.contrib.auth import authenticate, login, logout, get_user
@@ -15,10 +15,6 @@ from django.contrib.auth.decorators import login_required
 
 from django.views.generic import View, TemplateView, ListView, DetailView, CreateView
 
-# Create your views here.
-class CBView(View):
-    def get(self, request):
-        return HttpResponse('Class Based Views are cool!')
 
 class TestView(TemplateView):
     template_name = 'viewer/wsi.html'
@@ -46,7 +42,6 @@ def user_login(request):
             print("Username: {} and password {}".format(username,password))
             return HttpResponse("Invalid login details supplied")
     else:
-        print('herllo')
         return render(request, 'viewer/base.html', {})
 
 
@@ -55,12 +50,13 @@ def user_logout(request):
     logout(request)
     return render(request, 'viewer/base.html', {})
 
-# @login_required
+
+@login_required
 def MainPageView(request):
     organsystem_name = request.GET.get("organsystem")
     organsystem = OrganSystem.objects.get(name=organsystem_name)
     tutorials = organsystem.tutorials.all()
-    return render(request, 'viewer/main.html', context={'organsystem': organsystem, 'tutorials':tutorials})
+    return render(request, 'viewer/main.html', context={'organsystem': organsystem, 'tutorials': tutorials})
 
 
 
@@ -82,13 +78,13 @@ def MainPageView(request):
 # def main_page(request):
 #     return render(request, 'viewer/main.html')
 
-# @login_required
 
+@login_required
 def CasesView(request, organsystem_name):
     organsystem = OrganSystem.objects.get(name=organsystem_name)
-    case_list = Case.objects.all()
+    case_list = Case.objects.all().order_by('id')
     print('goodbye')
-    return render(request, 'viewer/cases.html', context={'organsystem': organsystem, 'case_list':case_list})
+    return render(request, 'viewer/cases.html', context={'organsystem': organsystem, 'case_list': case_list})
 
 
 # class CasesView(LoginRequiredMixin, ListView):
@@ -108,6 +104,8 @@ def CasesView(request, organsystem_name):
 #     model = Case
 #     template_name = 'viewer/wsi.html'
 
+
+@login_required
 def wsi(request, organsystem_name, case_id):
     case = Case.objects.get(pk=case_id)
     case_name_low = case.name.lower()
@@ -130,17 +128,43 @@ def wsi(request, organsystem_name, case_id):
 
         if answer_form.is_valid():
             answer = answer_form.cleaned_data['text']
-            answer_form = AnswerForm(initial={'text':answer})
+            answer_form = AnswerForm(initial={'text': answer})
         else:
             print(answer_form.errors)
 
     return render(request, 'viewer/wsi.html', context={'dx': case_name, 'dx_dzi': case_name_dzi, 'case': case,
                                                        'answer_form': answer_form, 'answered': answered,
                                                        'teach_points': case.teach_points, 'diagnoses': diagnoses,
-                                                       'case_dx': case_dx, 'answer':answer})
+                                                       'case_dx': case_dx, 'answer': answer})
 
 
+@login_required
+def upload(request):
 
+    diagnoses = []
+    for diagnosis in Diagnosis.objects.all():
+        diagnoses.append(diagnosis.text)
+
+    cases = []
+    for case in Case.objects.all():
+        cases.append(case.name)
+
+    if request.method == 'POST':
+        upload_form = UploadFileForm()
+        edit_case_form = EditCaseForm(data=request.POST)
+        selected = True
+        if edit_case_form.is_valid():
+            selected_name = edit_case_form.cleaned_data['name']
+            selected_case = Case.objects.get(name=selected_name)
+    elif request.method == 'GET':
+        upload_form = UploadFileForm()
+        edit_case_form = EditCaseForm()
+        selected = False
+        selected_case = ''
+
+    return render(request, 'viewer/upload.html', context={'upload_form': upload_form, 'edit_form': edit_case_form,
+                                                          'diagnoses': diagnoses, 'cases': cases,
+                                                          'selected_case': selected_case, 'selected': selected})
 
 
 @login_required
@@ -159,6 +183,8 @@ def profile(request):
 #
 #     return render(request, 'viewer/wsi.html', context={'form': form})
 #
+
+
 def registration(request):
     registered = False
 
@@ -179,5 +205,4 @@ def registration(request):
         user_form = UserForm()
 
     return render(request, 'viewer/registration.html',
-                  context={'user_form':user_form,
-                  'registered': registered})
+                  context={'user_form': user_form, 'registered': registered})

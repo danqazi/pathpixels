@@ -60,3 +60,9 @@ th{
 }
 
 a:hover {text-decoration: none;}
+
+.ui-widget.ui-widget-content{
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

@@ -33,10 +33,10 @@ class Tutorial(models.Model):
 
 
 class Case(models.Model):
-    name = models.CharField(max_length=250, default='')
+    name = models.CharField('case name', max_length=250, default='')
     diagnosis = models.ForeignKey('viewer.Diagnosis', on_delete=models.SET_NULL, null=True)
-    history = models.CharField(max_length=500, default='')
-    teach_points = models.CharField(max_length=1000, default='')
+    history = models.CharField('clinical history', max_length=500, default='')
+    teach_points = models.TextField('Teaching Points', max_length=2000, default='')
 
     def get_image_url(self):
         case_name_low = self.name.lower()
@@ -54,7 +54,7 @@ class Case(models.Model):
 
 
 class Diagnosis(models.Model):
-    text = models.CharField(max_length=200, default='')
+    text = models.CharField('diagnosis', max_length=200, default='')
 
     def __str__(self):
         return self.text

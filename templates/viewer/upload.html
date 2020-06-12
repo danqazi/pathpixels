@@ -1,0 +1,65 @@
+{% extends 'viewer/base.html' %}
+{% load static %}
+
+{% block head %}
+    <meta charset="utf-8">
+    <title>PathologyPixels</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="imageviewer.css"  rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body_block %}
+    <h1> Upload </h1>
+    <h2> Add and edit new content here! </h2>
+{% endblock %}
+
+{% block body_block_two %}
+    <div class="container-fluid" style="margin:20px">
+        <div class="row">
+            <div class="col-lg-5" style="border:2px solid black; border-radius:25px; padding:5px; background:#ffe0fa;">
+                <h2>Add New Content</h2>
+                <p>Use this form if you are entering a brand new case into the database</p>
+                <div class="form-group">
+                    <form enctype="multipart/form-data" method="POST">
+                        {% csrf_token %}
+                        {{ upload_form.as_p }}
+                        <input type="submit" name="answ" value="Upload">
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-5 offset-lg-1" style="border:2px solid black; border-radius:25px; background:#f0c8f7">
+                <h2>Edit Existing Content</h2>
+                <p>Use this form is you editing a case that already exists in the database</p>
+                <div class="form-group">
+                    {% if selected %}
+                        {{ selected_case }}
+                    {% else %}
+                        <form enctype="multipart/form-data" method="POST">
+                            {% csrf_token %}
+                            {{ edit_form.as_p }}
+                            <input type="submit" name="answ" value="Select">
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    var list = {{ diagnoses |safe }};
+    var list2 = {{ cases |safe }};
+    $("#id_diagnosis").autocomplete({source: list, minLength:3});
+    $(".autocomp").autocomplete({source: list2, minLength:3});
+    </script>
+    <script src="{% static 'js/wsi.js' %}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock %}

@@ -128,7 +128,7 @@ USE_TZ = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = MEDIA_DIR
 
-LOGIN_URL = '/viewer/profile.html'
+LOGIN_URL = '/viewer/'
 
 
 #The following code is linking AWS S3 storage
