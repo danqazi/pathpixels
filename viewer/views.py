@@ -179,6 +179,11 @@ def profile(request):
     performance = profile.performance
     return render(request, 'viewer/profile.html', context={"username": username, "performance": performance})
 
+
+@login_required
+def cows(request):
+    pass
+
 # def submit_answer(request):
 #     form = forms.AnswerForm()
 #

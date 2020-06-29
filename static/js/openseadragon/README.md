@@ -1,18 +1,86 @@
-# OpenSeadragon
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/openseadragon/openseadragon?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://secure.travis-ci.org/openseadragon/openseadragon.png?branch=master)](http://travis-ci.org/openseadragon/openseadragon)
+# OpenSeadragonSelection
 
-An open-source, web-based viewer for zoomable images, implemented in pure JavaScript.
+An OpenSeadragon plugin that provides functionality for selecting a rectangular part of an image.
 
-See it in action and get started using it at [http://openseadragon.github.io/](http://openseadragon.github.io/).
+## Demo
 
-## Stable Builds
+https://picturae.github.io/openseadragonselection/
 
-See the [GitHub releases page](https://github.com/openseadragon/openseadragon/releases).
+## Usage
 
-## Development
+Include `dist/openseadragonselection.js` after OpenSeadragon in your html. Then after you create a viewer:
 
-If you want to use OpenSeadragon in your own projects, you can find the latest stable build, API documentation, and example code at [http://openseadragon.github.io/](http://openseadragon.github.io/). If you want to modify OpenSeadragon and/or contribute to its development, read the [contributing guide](https://github.com/openseadragon/openseadragon/blob/master/CONTRIBUTING.md) for instructions.
+    var selection = viewer.selection(options);
 
-## License
+Then you can alter the selection state with any of these:
 
-OpenSeadragon is released under the New BSD license. For details, see the [LICENSE.txt file](https://github.com/openseadragon/openseadragon/blob/master/LICENSE.txt).
+    selection.enable();
+    selection.disable();
+    selection.toggleState();
+
+## Options
+
+    viewer.selection({
+        element:                 null, // html element to use for overlay
+        showSelectionControl:    true, // show button to toggle selection mode
+        toggleButton:            null, // dom element to use as toggle button
+        showConfirmDenyButtons:  true,
+        styleConfirmDenyButtons: true,
+        returnPixelCoordinates:  true,
+        keyboardShortcut:        'c', // key to toggle selection mode
+        rect:                    null, // initial selection as an OpenSeadragon.SelectionRect object
+        allowRotation:           true, // turn selection rotation on or off as needed
+        startRotated:            false, // alternative method for drawing the selection; useful for rotated crops
+        startRotatedHeight:      0.1, // only used if startRotated=true; value is relative to image height
+        restrictToImage:         false, // true = do not allow any part of the selection to be outside the image
+        onSelection:             function(rect) {}, // callback
+        prefixUrl:               null, // overwrites OpenSeadragon's option
+        navImages:               { // overwrites OpenSeadragon's options
+            selection: {
+                REST:   'selection_rest.png',
+                GROUP:  'selection_grouphover.png',
+                HOVER:  'selection_hover.png',
+                DOWN:   'selection_pressed.png'
+            },
+            selectionConfirm: {
+                REST:   'selection_confirm_rest.png',
+                GROUP:  'selection_confirm_grouphover.png',
+                HOVER:  'selection_confirm_hover.png',
+                DOWN:   'selection_confirm_pressed.png'
+            },
+            selectionCancel: {
+                REST:   'selection_cancel_rest.png',
+                GROUP:  'selection_cancel_grouphover.png',
+                HOVER:  'selection_cancel_hover.png',
+                DOWN:   'selection_cancel_pressed.png'
+            },
+        },
+        borderStyle: { // overwriteable style defaults
+            width:      '1px',
+            color:      '#fff'
+        },
+        handleStyle: {
+            top:        '50%',
+            left:       '50%',
+            width:      '6px',
+            height:     '6px',
+            margin:     '-4px 0 0 -4px',
+            background: '#000',
+            border:     '1px solid #ccc'
+        },
+        cornersStyle: {
+            width:      '6px',
+            height:     '6px',
+            background: '#000',
+            border:     '1px solid #ccc'
+        }
+    });
+
+## To do
+
+    - fix behavior when the viewer itself is rotated
+    - test/fix with multiple images at once
+
+## Fixes
+    - Now selection can be draw over existing selections, make selection in selection.
+    To achieve that before you were forced to make a selection outside any other selection and move it over.
