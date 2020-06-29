@@ -51,36 +51,50 @@
             {% endif %}
         </div>
       </div>
-      <!-- Second Half -->
 
-      <div id="secondHalf" class="bg-black">
-          <div class="d-md-flex align-items-center justify-content-center osd-container">
-            <div id="center" style="width: 100%; height: 100%;">
-                <script src="{% static 'js/openseadragon/openseadragon.min.js' %}"></script>
-                <script src="{% static 'js/openseadragon/openseadragon-scalebar.js' %}"></script>
-                <script type="text/javascript">
-                  var viewer = OpenSeadragon({
-                    id: "center",
-                    prefixUrl: "{% static "js/openseadragon/images/" %}",
-                    tileSources: "{{ case.get_image_url }}",
-                    showNavigator: true,
-                    zoomPerScroll:  2,
-                    zoomPerClick: 1.0
-                      });
-                 viewer.scalebar({
-                    pixelsPerMeter: 1000000,
-                    xOffset: 10,
-                    yOffset: 10,
-                    barThickness: 3,
-                    color: '#555555',
-                    fontColor: '#333333',
-                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                      });
-                </script>
-            </div>
-          </div>
+      <div id="openseadragon1" style="width: 800px; height: 600px;"></div>
+        <script src="\static\js\openseadragon\src\openseadragon.js"></script>
+        <script type="text/javascript">
+            window.onload = function() {
+            var viewer = OpenSeadragon({
+            id: "openseadragon",
+            prefixUrl: "openseadragon/images/",
+            loadTilesWithAjax: true,
+            tileSources: "/images/mullerian_adenosarcoma.json",
+        });
+      }
+        </script>
 
-      </div>
+<!--      &lt;!&ndash; Second Half &ndash;&gt;-->
+
+<!--      <div id="secondHalf" class="bg-black">-->
+<!--          <div class="d-md-flex align-items-center justify-content-center osd-container">-->
+<!--            <div id="center" style="width: 100%; height: 100%;">-->
+<!--                <script src="{% static 'js/openseadragon/openseadragon.min.js' %}"></script>-->
+<!--                <script src="{% static 'js/openseadragon/openseadragon-scalebar.js' %}"></script>-->
+<!--                <script type="text/javascript">-->
+<!--                  var viewer = OpenSeadragon({-->
+<!--                    id: "center",-->
+<!--                    prefixUrl: "{% static "js/openseadragon/images/" %}",-->
+<!--                    tileSources: "{{ case.get_image_url }}",-->
+<!--                    showNavigator: true,-->
+<!--                    zoomPerScroll:  2,-->
+<!--                    zoomPerClick: 1.0-->
+<!--                      });-->
+<!--                 viewer.scalebar({-->
+<!--                    pixelsPerMeter: 1000000,-->
+<!--                    xOffset: 10,-->
+<!--                    yOffset: 10,-->
+<!--                    barThickness: 3,-->
+<!--                    color: '#555555',-->
+<!--                    fontColor: '#333333',-->
+<!--                    backgroundColor: 'rgba(255, 255, 255, 0.5)',-->
+<!--                      });-->
+<!--                </script>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--      </div>-->
 
   </body>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

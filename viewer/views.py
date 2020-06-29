@@ -5,7 +5,7 @@
 #Own
 
 from django.shortcuts import render
-from viewer.models import User, Case, Profile, OrganSystem, Tutorial, Diagnosis
+from viewer.models import User, Case, Profile, OrganSystem, Tutorial, Diagnosis, Performance
 from viewer.forms import UserForm, UserProfileInfoForm, AnswerForm, UploadFileForm, EditCaseForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -113,6 +113,10 @@ def wsi(request, organsystem_name, case_id):
     case_name_dzi = case_name + '/' + case_name + '.dzi'
     case_dx = case.diagnosis.text
 
+    user = get_user(request)
+    profile = Profile.objects.get(user=user)
+    performance = profile.performance
+
     diagnoses = []
     for diagnosis in Diagnosis.objects.all():
         diagnoses.append(diagnosis.text)
@@ -169,8 +173,11 @@ def upload(request):
 
 @login_required
 def profile(request):
-    username = get_user(request).username
-    return render(request, 'viewer/profile.html', {"username": username})
+    user = get_user(request)
+    username = user.username
+    profile = Profile.objects.get(user=user)
+    performance = profile.performance
+    return render(request, 'viewer/profile.html', context={"username": username, "performance": performance})
 
 # def submit_answer(request):
 #     form = forms.AnswerForm()

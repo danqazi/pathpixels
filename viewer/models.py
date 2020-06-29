@@ -4,17 +4,25 @@ from django.conf import settings
 from django.urls import reverse
 # Create your models here.
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    # performance = models.ForeignKey('viewer.Performance', on_delete=models.CASCADE)
+    performance = models.ForeignKey('viewer.Performance', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.user.username
 
 
-# class Performance(models.Model):
-#     score = models.CharField(max_length=100)
+class Performance(models.Model):
+    num_correct = models.IntegerField(default=0)
+    num_incorrect = models.IntegerField(default=0)
+    total_answered = models.IntegerField(default=0)
+
+    def __str__(self):
+        if self.total_answered == 0:
+            return "You have not attempted any questions yet."
+        else:
+            return (self.num_correct / self.total_answered)
 
 
 class OrganSystem(models.Model):

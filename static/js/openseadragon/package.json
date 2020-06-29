@@ -1,36 +1,49 @@
 {
-  "name": "openseadragonselection",
-  "version": "1.1.1",
-  "description": "An OpenSeadragon plugin to allow selecting part of the zoomable image and getting the corresponding coordinates.",
-  "main": "selection.js",
-  "scripts": {},
+  "name": "openseadragon",
+  "version": "2.4.2",
+  "description": "Provides a smooth, zoomable user interface for HTML/Javascript.",
+  "keywords": [
+    "image",
+    "zoom",
+    "pan",
+    "openseadragon",
+    "seadragon",
+    "deepzoom",
+    "dzi",
+    "iiif",
+    "osm",
+    "tms"
+  ],
+  "homepage": "http://openseadragon.github.io/",
+  "bugs": {
+    "url": "https://github.com/openseadragon/openseadragon/issues"
+  },
+  "license": "BSD-3-Clause",
+  "files": [
+    "build/openseadragon/"
+  ],
+  "main": "build/openseadragon/openseadragon.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/picturae/openseadragonselection.git"
-  },
-  "keywords": [
-    "openseadragon",
-    "selection",
-    "crop"
-  ],
-  "author": "Petar Petrov",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/picturae/openseadragonselection/issues"
-  },
-  "homepage": "https://github.com/picturae/openseadragonselection#readme",
-  "dependencies": {
+    "url": "https://github.com/openseadragon/openseadragon.git"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-jshint": "^1.11.2",
-    "gulp-load-plugins": "^0.10.0",
-    "gulp-plumber": "^1.0.1",
-    "gulp-serve": "^1.2.0",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-uglify": "^1.4.2",
-    "gulp-util": "^3.0.6",
-    "jshint-stylish": "^2.0.1"
+    "grunt": "^1.0.4",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-compress": "^1.6.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-connect": "^2.1.0",
+    "grunt-contrib-qunit": "^3.1.0",
+    "grunt-contrib-uglify": "^4.0.1",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-eslint": "^22.0.0",
+    "grunt-git-describe": "^2.4.4",
+    "grunt-istanbul": "^0.8.0",
+    "grunt-text-replace": "^0.4.0",
+    "qunitjs": "2.4.1"
+  },
+  "scripts": {
+    "test": "grunt test",
+    "prepare": "grunt build"
   }
 }
